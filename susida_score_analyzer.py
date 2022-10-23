@@ -95,9 +95,11 @@ def main():
         speeds.append(speed)
         mistakes.append(mistake)
 
+    # スコアをプロットする
     plt.plot(timestamps, scores, color="blue", linewidth=1, marker=".", label="Score")
     plt.legend(bbox_to_anchor=(0, 1), loc="upper left")
 
+    # タイピング速度をプロットする
     ax1 = plt.twinx()
     ax1.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
     plt.legend(bbox_to_anchor=(0, 0.9), loc="upper left")
