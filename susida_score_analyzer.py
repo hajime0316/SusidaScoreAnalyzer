@@ -1,4 +1,5 @@
-from turtle import color
+from cProfile import label
+from turtle import color, title
 from unittest import result
 import tweepy
 from pprint import pprint
@@ -94,9 +95,13 @@ def main():
         speeds.append(speed)
         mistakes.append(mistake)
 
-    plt.plot(timestamps, scores, color="blue", linewidth=1, marker=".")
+    plt.plot(timestamps, scores, color="blue", linewidth=1, marker=".", label="Score")
+    plt.legend(bbox_to_anchor=(0, 1), loc="upper left")
+
     ax1 = plt.twinx()
-    ax1.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2)
+    ax1.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
+    plt.legend(bbox_to_anchor=(0, 0.9), loc="upper left")
+
     ax1.set_xticks([
         datetime(year=2020, month=1, day=1),
         datetime(year=2021, month=1, day=1),
