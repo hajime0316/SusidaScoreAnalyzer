@@ -24,13 +24,13 @@ def ClientInfo():
 
 
 # 関数
-def SearchTweets():
+def SearchTweets(user_name):
 
     # tweepy Client初期化
     client = ClientInfo()
 
     # User IDの取得
-    user_data = client.get_user(username="hajime0316_")
+    user_data = client.get_user(username=user_name)
     user_id = user_data.data["id"]
 
     next_token = None
@@ -58,7 +58,7 @@ def SearchTweets():
 
 def main():
     # 関数実行・出力
-    results = SearchTweets()
+    results = SearchTweets("hajime0316_")
     with open("test.json", "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
 
