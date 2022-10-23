@@ -7,11 +7,14 @@ import json
 import re
 import matplotlib.pyplot as plt
 from datetime import datetime
-
+from pathlib import Path
 
 # クライアント関数を作成
+
+
 def ClientInfo():
-    with open("secrets/secrets.json", "r") as f:
+    script_dir = Path(__file__).resolve().parent
+    with open(f"{script_dir}/secrets/secrets.json", "r") as f:
         secret = json.load(f)
     client = tweepy.Client(
         bearer_token=secret["BEARER_TOKEN"],
@@ -73,18 +76,24 @@ def main():
         # 寿司打ツイートかどうかを判定
         if text.find("高級10,000円コース【普通】") == -1: continue
 
-        p = re.compile(r"★(0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{3})+)円分 お得でした！（速度：(\d+\.\d+)key/秒、ミス：(\d+)key）")
-        # TODO: re.compile(r"（スコア：(0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{3})+)円、速度：(\d+\.\d+)key/秒、ミス：(\d+)key）")
-        #       のパターンに対応する
+        p1 = re.compile(r"★(0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{3})+)円分 お得でした！（速度：(\d+\.\d+)key/秒、ミス：(\d+)key）")
+        # p1_data = ["gain", "speed", "mistake"]
+        p2 = re.compile(r"（スコア：(0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{3})+)円、速度：(\d+\.\d+)key/秒、ミス：(\d+)key）")
+        # p2_data = ["score", "speed", "mistake"]
 
-        m = p.search(text)
+        m1 = p1.search(text)
+        m2 = p2.search(text)
 
-        if not m: continue  # パターンマッチしない場合はスキップ
-        print(m.groups())
-
-        score = int(m.group(1).replace(",", ""))
-        speed = float(m.group(2))
-        mistake = int(m.group(3))
+        if m1:
+            score = int(m1.group(1).replace(",", "")) + 10000
+            speed = float(m1.group(2))
+            mistake = int(m1.group(3))
+        elif m2:
+            score = int(m2.group(1).replace(",", ""))
+            speed = float(m2.group(2))
+            mistake = int(m2.group(3))
+        else:
+            continue
 
         print(score, speed, mistake)
 
