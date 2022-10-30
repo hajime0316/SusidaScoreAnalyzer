@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from pathlib import Path
 import sys
+import matplotlib.dates as mdates
 
 # クライアント関数を作成
 
@@ -144,13 +145,11 @@ def main():
     ax1.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
     plt.legend(bbox_to_anchor=(0, 0.9), loc="upper left")
 
-    ax1.set_xticks([
-        datetime(year=2020, month=1, day=1),
-        datetime(year=2021, month=1, day=1),
-        datetime(year=2022, month=1, day=1),
-        datetime(year=2023, month=1, day=1)
-    ])
-    ax1.set_xticklabels(["2020", "2021", "2022", "2023"])
+    # 時間軸ラベルの設定
+    locator = mdates.AutoDateLocator(minticks=3, maxticks=5)
+    # formatter = mdates.ConciseDateFormatter(locator)
+    ax1.xaxis.set_major_locator(locator)
+    # ax1.xaxis.set_major_formatter(formatter)
 
     plt.show()
 
