@@ -74,7 +74,8 @@ def main():
         text = r["text"]
 
         # 寿司打ツイートかどうかを判定
-        if text.find("高級10,000円コース【普通】") == -1: continue
+        if text.find("高級10,000円コース【普通】で、") == -1 and text.find("#寿司打") == -1:
+            continue
 
         p1 = re.compile(r"★(0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{3})+)円分 お得でした！（速度：(\d+\.\d+)key/秒、ミス：(\d+)key）")
         # p1_data = ["gain", "speed", "mistake"]
