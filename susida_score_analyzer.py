@@ -77,6 +77,9 @@ def main():
     if course_or_price == "高級" or course_or_price == "10000":
         course = "高級"
         price = 10000
+    else:
+        print("Possible values for the argument <course>: 'お手軽', 'お勧め', '高級', 3000, 5000, 10000")
+        sys.exit(1)
 
     game_type = sys.argv[3]
 
