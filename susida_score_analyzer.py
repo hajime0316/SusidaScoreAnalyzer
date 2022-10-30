@@ -8,6 +8,7 @@ import re
 import matplotlib.pyplot as plt
 from datetime import datetime
 from pathlib import Path
+import sys
 
 # クライアント関数を作成
 
@@ -60,8 +61,24 @@ def SearchTweets(user_name):
 
 
 def main():
+
+    user_name = sys.argv[1]
+
+    course_or_price = sys.argv[2]
+    if course_or_price == "お手軽" or course_or_price == "3000":
+        course = "お手軽"
+        price = 3000
+    if course_or_price == "お勧め" or course_or_price == "5000":
+        course = "お勧め"
+        price = 5000
+    if course_or_price == "高級" or course_or_price == "10000":
+        course = "高級"
+        price = 10000
+
+    game_type = sys.argv[3]
+
     # 関数実行・出力
-    results = SearchTweets("hajime0316_")
+    results = SearchTweets(user_name)
     with open("test.json", "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
 
@@ -74,9 +91,6 @@ def main():
         text = r["text"]
 
         # 寿司打ツイートかどうかを判定
-        course = "高級"
-        price = 10000
-        game_type = "普通"
 
         if text.find(f"{course}{'{:,}'.format(price)}円コース【{game_type}】で、") == -1 and text.find("#寿司打") == -1:
             continue
