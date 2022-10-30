@@ -61,6 +61,9 @@ def SearchTweets(user_name):
 
 
 def main():
+    if len(sys.argv) < 4:
+        print("Usage: python susida_score_analyzer.py <user name> <course> <type>")
+        sys.exit(1)
 
     user_name = sys.argv[1]
 
