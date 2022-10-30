@@ -92,7 +92,7 @@ def main():
 
         # 寿司打ツイートかどうかを判定
 
-        if text.find(f"{course}{'{:,}'.format(price)}円コース【{game_type}】で、") == -1 and text.find("#寿司打") == -1:
+        if text.find(f"{course}{'{:,}'.format(price)}円コース【{game_type}】で、") == -1 or text.find("#寿司打") == -1:
             continue
 
         p1 = re.compile(r"★(0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{3})+)円分 お得でした！（速度：(\d+\.\d+)key/秒、ミス：(\d+)key）")
