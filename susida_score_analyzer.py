@@ -71,10 +71,10 @@ def main():
     if course_or_price == "お手軽" or course_or_price == "3000":
         course = "お手軽"
         price = 3000
-    if course_or_price == "お勧め" or course_or_price == "5000":
+    elif course_or_price == "お勧め" or course_or_price == "5000":
         course = "お勧め"
         price = 5000
-    if course_or_price == "高級" or course_or_price == "10000":
+    elif course_or_price == "高級" or course_or_price == "10000":
         course = "高級"
         price = 10000
     else:
