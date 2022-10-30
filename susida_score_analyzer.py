@@ -102,9 +102,12 @@ def main():
         # p1_data = ["gain", "speed", "mistake"]
         p2 = re.compile(r"（スコア：(0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{3})+)円、速度：(\d+\.\d+)key/秒、ミス：(\d+)key）")
         # p2_data = ["score", "speed", "mistake"]
+        p3 = re.compile(r"★(0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{3})+)円分 損でした…（速度：(\d+\.\d+)key/秒、ミス：(\d+)key）")
+
 
         m1 = p1.search(text)
         m2 = p2.search(text)
+        m3 = p3.search(text)
 
         if m1:
             score = int(m1.group(1).replace(",", "")) + price
@@ -114,6 +117,10 @@ def main():
             score = int(m2.group(1).replace(",", ""))
             speed = float(m2.group(2))
             mistake = int(m2.group(3))
+        elif m3:
+            score = int(m3.group(1).replace(",", "")) - price
+            speed = float(m3.group(2))
+            mistake = int(m3.group(3))
         else:
             continue
 
