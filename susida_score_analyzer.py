@@ -1,4 +1,5 @@
-from turtle import color
+from cProfile import label
+from turtle import color, title
 from unittest import result
 import tweepy
 from pprint import pprint
@@ -6,11 +7,16 @@ import json
 import re
 import matplotlib.pyplot as plt
 from datetime import datetime
-
+from pathlib import Path
+import sys
+import matplotlib.dates as mdates
 
 # クライアント関数を作成
+
+
 def ClientInfo():
-    with open("secrets/secrets.json", "r") as f:
+    script_dir = Path(__file__).resolve().parent
+    with open(f"{script_dir}/secrets/secrets.json", "r") as f:
         secret = json.load(f)
     client = tweepy.Client(
         bearer_token=secret["BEARER_TOKEN"],
@@ -23,13 +29,13 @@ def ClientInfo():
 
 
 # 関数
-def SearchTweets():
+def SearchTweets(user_name):
 
     # tweepy Client初期化
     client = ClientInfo()
 
     # User IDの取得
-    user_data = client.get_user(username="hajime0316_")
+    user_data = client.get_user(username=user_name)
     user_id = user_data.data["id"]
 
     next_token = None
@@ -56,8 +62,30 @@ def SearchTweets():
 
 
 def main():
+    if len(sys.argv) < 4:
+        print("Usage: python susida_score_analyzer.py <user name> <course> <type>")
+        sys.exit(1)
+
+    user_name = sys.argv[1]
+
+    course_or_price = sys.argv[2]
+    if course_or_price == "お手軽" or course_or_price == "3000":
+        course = "お手軽"
+        price = 3000
+    elif course_or_price == "お勧め" or course_or_price == "5000":
+        course = "お勧め"
+        price = 5000
+    elif course_or_price == "高級" or course_or_price == "10000":
+        course = "高級"
+        price = 10000
+    else:
+        print("Possible values for the argument <course>: 'お手軽', 'お勧め', '高級', 3000, 5000, 10000")
+        sys.exit(1)
+
+    game_type = sys.argv[3]
+
     # 関数実行・出力
-    results = SearchTweets()
+    results = SearchTweets(user_name)
     with open("test.json", "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
 
@@ -70,20 +98,34 @@ def main():
         text = r["text"]
 
         # 寿司打ツイートかどうかを判定
-        if text.find("高級10,000円コース【普通】") == -1: continue
 
-        p = re.compile(r"★(0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{3})+)円分 お得でした！（速度：(\d+\.\d+)key/秒、ミス：(\d+)key）")
-        # TODO: re.compile(r"（スコア：(0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{3})+)円、速度：(\d+\.\d+)key/秒、ミス：(\d+)key）")
-        #       のパターンに対応する
+        if text.find(f"{course}{'{:,}'.format(price)}円コース【{game_type}】で、") == -1 or text.find("#寿司打") == -1:
+            continue
 
-        m = p.search(text)
+        p1 = re.compile(r"★(0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{3})+)円分 お得でした！（速度：(\d+\.\d+)key/秒、ミス：(\d+)key）")
+        # p1_data = ["gain", "speed", "mistake"]
+        p2 = re.compile(r"（スコア：(0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{3})+)円、速度：(\d+\.\d+)key/秒、ミス：(\d+)key）")
+        # p2_data = ["score", "speed", "mistake"]
+        p3 = re.compile(r"(0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{3})+)円分 損でした…（速度：(\d+\.\d+)key/秒、ミス：(\d+)key）")
 
-        if not m: continue  # パターンマッチしない場合はスキップ
-        print(m.groups())
+        m1 = p1.search(text)
+        m2 = p2.search(text)
+        m3 = p3.search(text)
 
-        score = int(m.group(1).replace(",", ""))
-        speed = float(m.group(2))
-        mistake = int(m.group(3))
+        if m1:
+            score = int(m1.group(1).replace(",", "")) + price
+            speed = float(m1.group(2))
+            mistake = int(m1.group(3))
+        elif m2:
+            score = int(m2.group(1).replace(",", ""))
+            speed = float(m2.group(2))
+            mistake = int(m2.group(3))
+        elif m3:
+            score = price - int(m3.group(1).replace(",", ""))
+            speed = float(m3.group(2))
+            mistake = int(m3.group(3))
+        else:
+            continue
 
         print(score, speed, mistake)
 
@@ -94,16 +136,20 @@ def main():
         speeds.append(speed)
         mistakes.append(mistake)
 
-    plt.plot(timestamps, scores, color="blue", linewidth=1, marker=".")
+    # スコアをプロットする
+    plt.plot(timestamps, scores, color="blue", linewidth=1, marker=".", label="Score")
+    plt.legend(bbox_to_anchor=(0, 1), loc="upper left")
+
+    # タイピング速度をプロットする
     ax1 = plt.twinx()
-    ax1.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2)
-    ax1.set_xticks([
-        datetime(year=2020, month=1, day=1),
-        datetime(year=2021, month=1, day=1),
-        datetime(year=2022, month=1, day=1),
-        datetime(year=2023, month=1, day=1)
-    ])
-    ax1.set_xticklabels(["2020", "2021", "2022", "2023"])
+    ax1.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
+    plt.legend(bbox_to_anchor=(0, 0.9), loc="upper left")
+
+    # 時間軸ラベルの設定
+    locator = mdates.AutoDateLocator(minticks=3, maxticks=5)
+    # formatter = mdates.ConciseDateFormatter(locator)
+    ax1.xaxis.set_major_locator(locator)
+    # ax1.xaxis.set_major_formatter(formatter)
 
     plt.show()
 
