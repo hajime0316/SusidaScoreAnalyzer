@@ -151,6 +151,7 @@ def main():
     ax1.xaxis.set_major_locator(locator)
     # ax1.xaxis.set_major_formatter(formatter)
 
+    plt.savefig("susida_score_graph.png")
     plt.show()
 
 
