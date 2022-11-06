@@ -138,12 +138,12 @@ def main():
 
     # スコアをプロットする
     plt.plot(timestamps, scores, color="blue", linewidth=1, marker=".", label="Score")
-    plt.legend(bbox_to_anchor=(0, 1), loc="upper left")
+    plt.legend(bbox_to_anchor=(0.0, 1.0), loc="lower left")
 
     # タイピング速度をプロットする
     ax1 = plt.twinx()
     ax1.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
-    plt.legend(bbox_to_anchor=(0, 0.9), loc="upper left")
+    plt.legend(bbox_to_anchor=(1.0, 1.0), loc="lower right")
 
     # 時間軸ラベルの設定
     locator = mdates.AutoDateLocator(minticks=3, maxticks=5)
