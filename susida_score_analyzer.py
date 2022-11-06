@@ -1,8 +1,4 @@
-from cProfile import label
-from turtle import color, title
-from unittest import result
 import tweepy
-from pprint import pprint
 import json
 import re
 import matplotlib.pyplot as plt
