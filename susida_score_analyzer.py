@@ -194,7 +194,7 @@ def main():
 
     # スコアのプロット
     fig_2_ax.bar(mean_timestamps, [x - price for x in mean_scores], bottom=price,
-                 edgecolor="black", width=dt / 2, align="center", label="Score")
+                 color="#f7a95b", width=dt / 2, align="center", label="Score")
     fig_2_ax.legend(bbox_to_anchor=(0.0, 1.0), loc="lower left")
 
     # 基準線をプロット
@@ -204,7 +204,7 @@ def main():
 
     # タイピング速度をプロット
     twin_ax = fig_2_ax.twinx()
-    twin_ax.plot(mean_timestamps, mean_speeds, color=(0.0, 0.0, 0.0, 0.5), marker=".", linewidth=2, label="Typing speed")
+    twin_ax.plot(mean_timestamps, mean_speeds, color="#752f09", marker=".", linewidth=1, label="Typing speed")
     twin_ax.legend(bbox_to_anchor=(1.0, 1.0), loc="lower right")
 
     # 時間軸ラベルの設定
