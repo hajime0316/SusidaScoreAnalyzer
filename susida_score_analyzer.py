@@ -133,7 +133,7 @@ def main():
         mistakes.append(mistake)
 
     # スコアをプロットする
-    fig_1 = plt.figure()
+    fig_1 = plt.figure("折れ線グラフ")
     fig_1_ax = fig_1.add_subplot()
     fig_1_ax.plot(timestamps, scores, color="blue", linewidth=1, marker=".", label="Score")
     fig_1_ax.legend(bbox_to_anchor=(0.0, 1.0), loc="lower left")
@@ -151,7 +151,7 @@ def main():
 
     fig_1.savefig("susida_score_graph.png")
 
-    fig_2 = plt.figure()
+    fig_2 = plt.figure("棒グラフ")
     fig_2_ax = fig_2.add_subplot()
     fig_2_ax.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
     fig_2.savefig("susida_score_graph_2.png")
