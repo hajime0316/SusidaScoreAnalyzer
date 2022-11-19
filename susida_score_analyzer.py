@@ -200,8 +200,6 @@ def main():
     # 基準線をプロット
     fig_2_ax.axhline(price, color='black', lw=1)
 
-    # fig_2_ax.set_ylim(0, 20000)
-
     # タイピング速度をプロット
     twin_ax = fig_2_ax.twinx()
     twin_ax.plot(mean_timestamps, mean_speeds, color="#752f09", marker=".", linewidth=1, label="Typing speed")
@@ -213,7 +211,6 @@ def main():
 
     fig_2.savefig("susida_score_graph_2.png")
 
-    # plt.savefig("susida_score_graph.png")
     plt.show()
 
 
