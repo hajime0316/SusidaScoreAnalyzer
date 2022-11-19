@@ -157,7 +157,7 @@ def main():
     fig_2_ax = fig_2.add_subplot()
 
     # 平均値の計算
-    SECTION_NUM = 5
+    SECTION_NUM = 10
     section_scores = [[] for i in range(SECTION_NUM)]
     section_speeds = [[] for i in range(SECTION_NUM)]
     start_timestamp = min(timestamps)
