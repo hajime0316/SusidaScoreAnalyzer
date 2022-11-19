@@ -185,7 +185,26 @@ def main():
     print(mean_scores)
     print(mean_speeds)
 
-    fig_2_ax.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
+    mean_timestamps = [start_timestamp + dt * (i + 0.5) for i in range(SECTION_NUM)]
+
+    print(mean_timestamps)
+
+    fig_2_ax.bar(mean_timestamps, [x - price for x in mean_scores], bottom=price,
+                 edgecolor="black", width=dt / 2, align="center", label="Score")
+    fig_2_ax.legend(bbox_to_anchor=(0.0, 1.0), loc="lower left")
+
+    fig_2_ax.axhline(price, color='black', lw=1)
+
+    # fig_2_ax.set_ylim(0, 20000)
+
+    twin_ax = fig_2_ax.twinx()
+    twin_ax.plot(mean_timestamps, mean_speeds, color=(0.0, 0.0, 0.0, 0.5), marker=".", linewidth=2, label="Typing speed")
+    twin_ax.legend(bbox_to_anchor=(1.0, 1.0), loc="lower right")
+
+    locator = mdates.AutoDateLocator(minticks=3, maxticks=5)
+    # formatter = mdates.ConciseDateFormatter(locator)
+    twin_ax.xaxis.set_major_locator(locator)
+
     fig_2.savefig("susida_score_graph_2.png")
 
     # plt.savefig("susida_score_graph.png")
