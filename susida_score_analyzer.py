@@ -133,21 +133,30 @@ def main():
         mistakes.append(mistake)
 
     # スコアをプロットする
-    plt.plot(timestamps, scores, color="blue", linewidth=1, marker=".", label="Score")
-    plt.legend(bbox_to_anchor=(0.0, 1.0), loc="lower left")
+    fig_1 = plt.figure()
+    fig_1_ax = fig_1.add_subplot()
+    fig_1_ax.plot(timestamps, scores, color="blue", linewidth=1, marker=".", label="Score")
+    fig_1_ax.legend(bbox_to_anchor=(0.0, 1.0), loc="lower left")
 
     # タイピング速度をプロットする
-    ax1 = plt.twinx()
-    ax1.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
-    plt.legend(bbox_to_anchor=(1.0, 1.0), loc="lower right")
+    twin_ax = fig_1_ax.twinx()
+    twin_ax.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
+    twin_ax.legend(bbox_to_anchor=(1.0, 1.0), loc="lower right")
 
     # 時間軸ラベルの設定
     locator = mdates.AutoDateLocator(minticks=3, maxticks=5)
     # formatter = mdates.ConciseDateFormatter(locator)
-    ax1.xaxis.set_major_locator(locator)
+    twin_ax.xaxis.set_major_locator(locator)
     # ax1.xaxis.set_major_formatter(formatter)
 
-    plt.savefig("susida_score_graph.png")
+    fig_1.savefig("susida_score_graph.png")
+
+    fig_2 = plt.figure()
+    fig_2_ax = fig_2.add_subplot()
+    fig_2_ax.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
+    fig_2.savefig("susida_score_graph_2.png")
+
+    # plt.savefig("susida_score_graph.png")
     plt.show()
 
 
