@@ -6,6 +6,7 @@ from datetime import datetime
 from pathlib import Path
 import sys
 import matplotlib.dates as mdates
+import numpy as np
 
 # クライアント関数を作成
 
@@ -153,6 +154,37 @@ def main():
 
     fig_2 = plt.figure("棒グラフ")
     fig_2_ax = fig_2.add_subplot()
+    SECTION_NUM = 5
+    section_scores = [[] for i in range(SECTION_NUM)]
+    section_speeds = [[] for i in range(SECTION_NUM)]
+    start_timestamp = min(timestamps)
+    end_timestamp = max(timestamps)
+    duration = end_timestamp - start_timestamp
+
+    dt = duration / SECTION_NUM
+
+    for i in range(len(timestamps)):
+        flag = False
+        for section_i in range(SECTION_NUM):
+            if (start_timestamp + dt * section_i <= timestamps[i] and timestamps[i] < start_timestamp + dt * (section_i + 1)):
+                section_scores[section_i].append(scores[i])
+                section_speeds[section_i].append(speeds[i])
+                flag = True
+                break
+
+        if not flag:
+            section_scores[-1].append(scores[i])
+            section_speeds[-1].append(speeds[i])
+
+    mean_scores = []
+    mean_speeds = []
+    for section_i in range(SECTION_NUM):
+        mean_scores.append(np.mean(section_scores[section_i]))
+        mean_speeds.append(np.mean(section_speeds[section_i]))
+
+    print(mean_scores)
+    print(mean_speeds)
+
     fig_2_ax.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
     fig_2.savefig("susida_score_graph_2.png")
 
