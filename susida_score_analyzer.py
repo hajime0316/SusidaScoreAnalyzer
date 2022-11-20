@@ -6,6 +6,7 @@ from datetime import datetime
 from pathlib import Path
 import sys
 import matplotlib.dates as mdates
+import numpy as np
 
 # クライアント関数を作成
 
@@ -133,21 +134,83 @@ def main():
         mistakes.append(mistake)
 
     # スコアをプロットする
-    plt.plot(timestamps, scores, color="blue", linewidth=1, marker=".", label="Score")
-    plt.legend(bbox_to_anchor=(0.0, 1.0), loc="lower left")
+    fig_1 = plt.figure("折れ線グラフ")
+    fig_1_ax = fig_1.add_subplot()
+    fig_1_ax.plot(timestamps, scores, color="blue", linewidth=1, marker=".", label="Score")
+    fig_1_ax.legend(bbox_to_anchor=(0.0, 1.0), loc="lower left")
 
     # タイピング速度をプロットする
-    ax1 = plt.twinx()
-    ax1.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
-    plt.legend(bbox_to_anchor=(1.0, 1.0), loc="lower right")
+    twin_ax = fig_1_ax.twinx()
+    twin_ax.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
+    twin_ax.legend(bbox_to_anchor=(1.0, 1.0), loc="lower right")
 
     # 時間軸ラベルの設定
     locator = mdates.AutoDateLocator(minticks=3, maxticks=5)
     # formatter = mdates.ConciseDateFormatter(locator)
-    ax1.xaxis.set_major_locator(locator)
+    twin_ax.xaxis.set_major_locator(locator)
     # ax1.xaxis.set_major_formatter(formatter)
 
-    plt.savefig("susida_score_graph.png")
+    fig_1.savefig("susida_score_graph.png")
+
+    # 棒グラフの作成
+    fig_2 = plt.figure("棒グラフ")
+    fig_2_ax = fig_2.add_subplot()
+
+    # 平均値の計算
+    SECTION_NUM = 10
+    section_scores = [[] for i in range(SECTION_NUM)]
+    section_speeds = [[] for i in range(SECTION_NUM)]
+    start_timestamp = min(timestamps)
+    end_timestamp = max(timestamps)
+    duration = end_timestamp - start_timestamp
+
+    dt = duration / SECTION_NUM
+
+    for i in range(len(timestamps)):
+        flag = False
+        for section_i in range(SECTION_NUM):
+            if (start_timestamp + dt * section_i <= timestamps[i] and timestamps[i] < start_timestamp + dt * (section_i + 1)):
+                section_scores[section_i].append(scores[i])
+                section_speeds[section_i].append(speeds[i])
+                flag = True
+                break
+
+        if not flag:
+            section_scores[-1].append(scores[i])
+            section_speeds[-1].append(speeds[i])
+
+    mean_scores = []
+    mean_speeds = []
+    for section_i in range(SECTION_NUM):
+        mean_scores.append(np.mean(section_scores[section_i]))
+        mean_speeds.append(np.mean(section_speeds[section_i]))
+
+    print(mean_scores)
+    print(mean_speeds)
+
+    mean_timestamps = [start_timestamp + dt * (i + 0.5) for i in range(SECTION_NUM)]
+
+    print(mean_timestamps)
+
+    # スコアのプロット
+    fig_2_ax.bar(mean_timestamps, [x - price for x in mean_scores], bottom=price,
+                 color="#f7a95b", width=dt / 2, align="center", label="Score")
+    fig_2_ax.legend(bbox_to_anchor=(0.0, 1.0), loc="lower left")
+
+    # 基準線をプロット
+    fig_2_ax.axhline(price, color='black', lw=1)
+
+    # タイピング速度をプロット
+    twin_ax = fig_2_ax.twinx()
+    twin_ax.plot(mean_timestamps, mean_speeds, color="#752f09", marker=".", linewidth=1, label="Typing speed")
+    twin_ax.legend(bbox_to_anchor=(1.0, 1.0), loc="lower right")
+
+    # 時間軸ラベルの設定
+    locator = mdates.AutoDateLocator(minticks=3, maxticks=5)
+    twin_ax.xaxis.set_major_locator(locator)
+
+    fig_2.savefig("susida_score_graph_2.png")
+
     plt.show()
 
 
