@@ -9,8 +9,6 @@ import matplotlib.dates as mdates
 import numpy as np
 
 # クライアント関数を作成
-
-
 def ClientInfo():
     script_dir = Path(__file__).resolve().parent
     with open(f"{script_dir}/secrets/secrets.json", "r") as f:
