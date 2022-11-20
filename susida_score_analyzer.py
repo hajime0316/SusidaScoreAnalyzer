@@ -83,7 +83,7 @@ def main():
 
     # 関数実行・出力
     results = SearchTweets(user_name)
-    with open("test.json", "w", encoding="utf-8") as f:
+    with open("tweets.json", "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
 
     timestamps = []
