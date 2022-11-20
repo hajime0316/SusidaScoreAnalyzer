@@ -149,7 +149,7 @@ def main():
     fig_1_ax1.xaxis.set_major_locator(locator)
     fig_1_ax2.xaxis.set_major_locator(locator)
 
-    fig_1.savefig("susida_score_graph.png")
+    fig_1.savefig(f"単純グラフ_{user_name}_{course}_{game_type}.png")
 
     # 平均値グラフの作成
     fig_2 = plt.figure("平均値グラフ")
@@ -208,7 +208,7 @@ def main():
     locator = mdates.AutoDateLocator(minticks=3, maxticks=5)
     twin_ax.xaxis.set_major_locator(locator)
 
-    fig_2.savefig("susida_score_graph_2.png")
+    fig_2.savefig(f"平均グラフ_{user_name}_{course}_{game_type}.png")
 
     plt.show()
 
