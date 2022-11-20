@@ -135,20 +135,19 @@ def main():
 
     # 単純グラフの作成
     fig_1 = plt.figure("単純グラフ")
-    fig_1_ax = fig_1.add_subplot()
-    fig_1_ax.plot(timestamps, scores, color="blue", linewidth=1, marker=".", label="Score")
-    fig_1_ax.legend(bbox_to_anchor=(0.0, 1.0), loc="lower left")
+    fig_1_ax1 = fig_1.add_subplot(2, 1, 1)
+    fig_1_ax1.plot(timestamps, scores, color="blue", linewidth=1, marker=".", label="Score")
+    fig_1_ax1.legend()
 
     # タイピング速度をプロットする
-    twin_ax = fig_1_ax.twinx()
-    twin_ax.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
-    twin_ax.legend(bbox_to_anchor=(1.0, 1.0), loc="lower right")
+    fig_1_ax2 = fig_1.add_subplot(2, 1, 2)
+    fig_1_ax2.plot(timestamps, speeds, color=(0.0, 0.0, 0.0, 0.5), linewidth=2, label="Typing speed")
+    fig_1_ax2.legend()
 
     # 時間軸ラベルの設定
     locator = mdates.AutoDateLocator(minticks=3, maxticks=5)
-    # formatter = mdates.ConciseDateFormatter(locator)
-    twin_ax.xaxis.set_major_locator(locator)
-    # ax1.xaxis.set_major_formatter(formatter)
+    fig_1_ax1.xaxis.set_major_locator(locator)
+    fig_1_ax2.xaxis.set_major_locator(locator)
 
     fig_1.savefig("susida_score_graph.png")
 
