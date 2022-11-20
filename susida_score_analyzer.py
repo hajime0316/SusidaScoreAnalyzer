@@ -151,11 +151,11 @@ def main():
 
     fig_1.savefig(f"単純グラフ_{user_name}_{course}_{game_type}.png")
 
-    # 平均値グラフの作成
-    fig_2 = plt.figure("平均値グラフ")
+    # 平均グラフの作成
+    fig_2 = plt.figure("平均グラフ")
     fig_2_ax = fig_2.add_subplot()
 
-    # 平均値の計算
+    # 平均の計算
     SECTION_NUM = 10
     section_scores = [[] for i in range(SECTION_NUM)]
     section_speeds = [[] for i in range(SECTION_NUM)]
