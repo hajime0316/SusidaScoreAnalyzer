@@ -133,8 +133,8 @@ def main():
         speeds.append(speed)
         mistakes.append(mistake)
 
-    # スコアをプロットする
-    fig_1 = plt.figure("折れ線グラフ")
+    # 単純グラフの作成
+    fig_1 = plt.figure("単純グラフ")
     fig_1_ax = fig_1.add_subplot()
     fig_1_ax.plot(timestamps, scores, color="blue", linewidth=1, marker=".", label="Score")
     fig_1_ax.legend(bbox_to_anchor=(0.0, 1.0), loc="lower left")
@@ -152,8 +152,8 @@ def main():
 
     fig_1.savefig("susida_score_graph.png")
 
-    # 棒グラフの作成
-    fig_2 = plt.figure("棒グラフ")
+    # 平均値グラフの作成
+    fig_2 = plt.figure("平均値グラフ")
     fig_2_ax = fig_2.add_subplot()
 
     # 平均値の計算
