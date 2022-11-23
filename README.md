@@ -14,12 +14,13 @@ git clone git@github.com:hajime0316/SusidaScoreAnalyzer.git
 
 ### 1. secretsファイルを用意する
 
-プロジェクトフォルダにsecretsフォルダを作成し，そこに`secrets.json`というファイルを作成する．
-`secrets.json`の中身は以下の通り．
+プロジェクトフォルダ直下に`secrets.json`というファイルを作成する．
+`secrets.json`の中身にTwitter APIを使用するためのBearer Tokenの情報を記述する．
+記述方法は以下の通り．
 
 ```json
 {
-    "BEARER_TOKEN": "Twitter APIのBearer Token"
+    "BEARER_TOKEN": "<Twitter APIのBearer Token>"
 }
 ```
 
