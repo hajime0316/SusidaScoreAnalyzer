@@ -8,12 +8,18 @@ import sys
 import matplotlib.dates as mdates
 import numpy as np
 
+
 # クライアント関数を作成
-
-
 def ClientInfo():
     script_dir = Path(__file__).resolve().parent
-    with open(f"{script_dir}/secrets/secrets.json", "r") as f:
+    if (script_dir / "secrets" / "secrets.json").exists():
+        secrets_file_path = script_dir / "secrets" / "secrets.json"
+    elif (script_dir / "secrets.json").exists():
+        secrets_file_path = script_dir / "secrets.json"
+    else:
+        raise Exception("'secrets.json' was not found.")
+
+    with secrets_file_path.open() as f:
         secret = json.load(f)
     client = tweepy.Client(
         bearer_token=secret["BEARER_TOKEN"],
@@ -83,7 +89,7 @@ def main():
 
     # 関数実行・出力
     results = SearchTweets(user_name)
-    with open("test.json", "w", encoding="utf-8") as f:
+    with open("tweets.json", "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
 
     timestamps = []
@@ -136,12 +142,14 @@ def main():
     # 単純グラフの作成
     fig_1 = plt.figure("単純グラフ")
     fig_1_ax1 = fig_1.add_subplot(2, 1, 1)
-    fig_1_ax1.plot(timestamps, scores, color=(244/255, 127/255, 17/255, 0.5), marker=".", linewidth=1, label="Score")
+    fig_1_ax1.plot(timestamps, scores, color=(244 / 255, 127 / 255, 17 / 255, 0.5),
+                   marker=".", linewidth=1, label="Score")
     fig_1_ax1.legend()
 
     # タイピング速度をプロットする
     fig_1_ax2 = fig_1.add_subplot(2, 1, 2)
-    fig_1_ax2.plot(timestamps, speeds, color=(117/255, 47/255, 8/255, 0.5), marker=".", linewidth=1, label="Typing speed")
+    fig_1_ax2.plot(timestamps, speeds, color=(117 / 255, 47 / 255, 8 / 255, 0.5),
+                   marker=".", linewidth=1, label="Typing speed")
     fig_1_ax2.legend()
 
     # 時間軸ラベルの設定

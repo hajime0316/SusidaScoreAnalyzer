@@ -1,3 +1,5 @@
 secrets/
 test.json
+tweets.json
+secrets.json
 *.png
