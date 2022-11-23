@@ -17,7 +17,7 @@ def ClientInfo():
     elif (script_dir / "secrets.json").exists():
         secrets_file_path = script_dir / "secrets.json"
     else:
-        return None
+        raise Exception("'secrets.json' was not found.")
 
     with secrets_file_path.open() as f:
         secret = json.load(f)
