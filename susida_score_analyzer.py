@@ -66,26 +66,26 @@ def SearchTweets(user_name):
 
 def main():
     if len(sys.argv) < 4:
-        print("Usage: python susida_score_analyzer.py <user name> <course> <type>")
+        print("Usage: python susida_score_analyzer.py <twitter_user_name> <price> <game_type>")
         sys.exit(1)
 
     user_name = sys.argv[1]
 
-    course_or_price = sys.argv[2]
-    if course_or_price == "お手軽" or course_or_price == "3000":
-        course = "お手軽"
-        price = 3000
-    elif course_or_price == "お勧め" or course_or_price == "5000":
-        course = "お勧め"
-        price = 5000
-    elif course_or_price == "高級" or course_or_price == "10000":
-        course = "高級"
-        price = 10000
-    else:
-        print("Possible values for the argument <course>: 'お手軽', 'お勧め', '高級', 3000, 5000, 10000")
+    # <price>は最初文字列としてチェックした後数値に変換
+    prices = ["3000", "5000", "10000"]
+    price = sys.argv[2]
+    if price not in prices:
+        print("Error: Invalid input value <price>")
+        print(f"Possible values for the argument <price>: {', '.join(prices)}")
         sys.exit(1)
+    price = int(price)  # priceを数値に変換
 
     game_type = sys.argv[3]
+    game_types = ["練習", "普通", "正確重視", "速度必須", "一発勝負"]
+    if game_type not in game_types:
+        print("Error: Invalid input value <game_type>")
+        print(f"Possible values for the argument <game_type>: {', '.join(game_types)}")
+        sys.exit(1)
 
     # 関数実行・出力
     results = SearchTweets(user_name)
@@ -102,7 +102,7 @@ def main():
 
         # 寿司打ツイートかどうかを判定
 
-        if text.find(f"{course}{'{:,}'.format(price)}円コース【{game_type}】で、") == -1 or text.find("#寿司打") == -1:
+        if text.find(f"{'{:,}'.format(price)}円コース【{game_type}】で、") == -1 or text.find("#寿司打") == -1:
             continue
 
         p1 = re.compile(r"★(0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{3})+)円分 お得でした！（速度：(\d+\.\d+)key/秒、ミス：(\d+)key）")
@@ -157,7 +157,7 @@ def main():
     fig_1_ax1.xaxis.set_major_locator(locator)
     fig_1_ax2.xaxis.set_major_locator(locator)
 
-    fig_1.savefig(f"単純グラフ_{user_name}_{course}_{game_type}.png")
+    fig_1.savefig(f"単純グラフ_{user_name}_{price}円_{game_type}.png")
 
     # 平均グラフの作成
     fig_2 = plt.figure("平均グラフ")
@@ -216,7 +216,7 @@ def main():
     locator = mdates.AutoDateLocator(minticks=3, maxticks=5)
     twin_ax.xaxis.set_major_locator(locator)
 
-    fig_2.savefig(f"平均グラフ_{user_name}_{course}_{game_type}.png")
+    fig_2.savefig(f"平均グラフ_{user_name}_{price}円_{game_type}.png")
 
     plt.show()
 
