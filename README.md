@@ -10,7 +10,7 @@ Twitterの寿司打ツイートから寿司打のデータを取得しグラフ�
 
 ## インストール方法
 
-git cloneでソースコードを取得すればよい．
+git cloneでソースコードを取得する．
 
 ```git
 git clone git@github.com:hajime0316/SusidaScoreAnalyzer.git
@@ -37,3 +37,10 @@ git clone git@github.com:hajime0316/SusidaScoreAnalyzer.git
 ```txt
 python susida_score_analyzer.py <twitter_user_name> <price> <game_type>
 ```
+
+上記コマンドを実行すると2種類のグラフが表示される．
+
+1. 単純グラフ: 寿司打のスコアとタイピング速度を単純にプロットしたグラフ
+2. 平均グラフ: 期間を区切ってスコアとタイピング速度の平均値を求め，スコアを棒グラフ，タイピング速度を折れ線グラフで表したグラフ
+
+表示されているグラフウィンドウを2つとも閉じるとプログラムが終了する．
