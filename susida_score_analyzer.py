@@ -66,24 +66,19 @@ def SearchTweets(user_name):
 
 def main():
     if len(sys.argv) < 4:
-        print("Usage: python susida_score_analyzer.py <user name> <course> <type>")
+        print("Usage: python susida_score_analyzer.py <user name> <price> <type>")
         sys.exit(1)
 
     user_name = sys.argv[1]
 
-    course_or_price = sys.argv[2]
-    if course_or_price == "お手軽" or course_or_price == "3000":
-        course = "お手軽"
-        price = 3000
-    elif course_or_price == "お勧め" or course_or_price == "5000":
-        course = "お勧め"
-        price = 5000
-    elif course_or_price == "高級" or course_or_price == "10000":
-        course = "高級"
-        price = 10000
-    else:
-        print("Possible values for the argument <course>: 'お手軽', 'お勧め', '高級', 3000, 5000, 10000")
+    # <price>は最初文字列としてチェックした後数値に変換
+    prices = ["3000", "5000", "10000"]
+    price = sys.argv[2]
+    if price not in prices:
+        print("Error: Invalid input value <price>")
+        print(f"Possible values for the argument <price>: {', '.join(prices)}")
         sys.exit(1)
+    price = int(price)  # priceを数値に変換
 
     game_type = sys.argv[3]
     game_types = ["練習", "普通", "正確重視", "速度必須", "一発勝負"]
