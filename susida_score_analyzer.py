@@ -79,6 +79,7 @@ def main():
         print(f"Possible values for the argument <price>: {', '.join(prices)}")
         sys.exit(1)
     price = int(price)  # priceを数値に変換
+    course = {3000: "お手軽", 5000: "お勧め", 10000: "高級"}[price]
 
     game_type = sys.argv[3]
     game_types = ["練習", "普通", "正確重視", "速度必須", "一発勝負"]
