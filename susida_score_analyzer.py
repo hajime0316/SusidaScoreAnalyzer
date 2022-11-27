@@ -66,7 +66,7 @@ def SearchTweets(user_name):
 
 def main():
     if len(sys.argv) < 4:
-        print("Usage: python susida_score_analyzer.py <user name> <price> <type>")
+        print("Usage: python susida_score_analyzer.py <twitter_user_name> <price> <game_type>")
         sys.exit(1)
 
     user_name = sys.argv[1]
@@ -83,8 +83,8 @@ def main():
     game_type = sys.argv[3]
     game_types = ["練習", "普通", "正確重視", "速度必須", "一発勝負"]
     if game_type not in game_types:
-        print("Error: Invalid input value <type>")
-        print(f"Possible values for the argument <type>: {', '.join(game_types)}")
+        print("Error: Invalid input value <game_type>")
+        print(f"Possible values for the argument <game_type>: {', '.join(game_types)}")
         sys.exit(1)
 
     # 関数実行・出力

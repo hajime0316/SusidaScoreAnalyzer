@@ -35,5 +35,5 @@ git clone git@github.com:hajime0316/SusidaScoreAnalyzer.git
 ### 2. 以下のコマンドを実行する
 
 ```txt
-python susida_score_analyzer.py <twitter_user_name> <course or price> <type>
+python susida_score_analyzer.py <twitter_user_name> <price> <game_type>
 ```
