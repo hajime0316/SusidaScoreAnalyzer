@@ -7,6 +7,8 @@ Twitterの寿司打ツイートから寿司打のデータを取得しグラフ�
 
 - Python 3.9.6
 - tweepy 4.10.1
+- matplotlib 3.6.1
+- numpy 1.23.3
 
 ## インストール方法
 
@@ -23,7 +25,7 @@ git clone git@github.com:hajime0316/SusidaScoreAnalyzer.git
 ### 1. secretsファイルを用意する
 
 プロジェクトフォルダ直下に`secrets.json`というファイルを作成する．
-`secrets.json`の中身にTwitter APIを使用するためのBearer Tokenの情報を記述する．
+`secrets.json`の中身にTwitter APIのBearer Token情報を記述する．
 記述方法は以下の通り．
 
 ```json
@@ -32,13 +34,25 @@ git clone git@github.com:hajime0316/SusidaScoreAnalyzer.git
 }
 ```
 
-### 2. 以下のコマンドを実行する
+Twitter APIのBearer Tokenは[このWebサイト](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api)から取得できる．
+
+### 2. コマンドを実行する
+
+実行コマンドは以下の通り．
 
 ```txt
 python susida_score_analyzer.py <twitter_user_name> <price> <game_type>
 ```
 
-上記コマンドを実行すると2種類のグラフが表示される．
+コマンドの入力（引数）は以下の通り．
+
+| 入力 (引数)           | 説明                                          | 取りうる値                               |
+| --------------------- | --------------------------------------------- | ---------------------------------------- |
+| `<twitter_user_name>` | 寿司打のスコアを調べる対象のTwitterユーザー名 | Twitterユーザー名 (文字列)               |
+| `<price>`             | グラフ化の対象とする寿司打の値段              | 3000, 5000, 10000                        |
+| `<game_type>`         | グラフ化の対象とする寿司打のゲーム種別        | 練習, 普通, 正確重視, 速度必須, 一発勝負 |
+
+コマンドを実行すると2種類のグラフが表示される．
 
 | グラフ名   | 概要                                                                                                         |
 | ---------- | ------------------------------------------------------------------------------------------------------------ |
