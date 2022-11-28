@@ -12,6 +12,8 @@ Twitterの寿司打ツイートから寿司打のデータを取得しグラフ�
 
 ## インストール方法
 
+### 1. ソースコードのclone
+
 git cloneでソースコードを取得する．
 
 ```git
@@ -20,9 +22,7 @@ git clone git@github.com:hajime0316/SusidaScoreAnalyzer.git
 
 以降，クローン時に作成さたフォルダ (`SusidaScoreAnalyzer`フォルダ) をプロジェクトフォルダと呼ぶ．
 
-## 使い方
-
-### 1. secretsファイルを用意する
+### 2. Twitter API利用のためのsecretsファイルを用意する
 
 プロジェクトフォルダ直下に`secrets.json`というファイルを作成する．
 `secrets.json`の中身にTwitter APIのBearer Token情報を記述する．
@@ -36,9 +36,17 @@ git clone git@github.com:hajime0316/SusidaScoreAnalyzer.git
 
 Twitter APIのBearer Tokenは[このWebサイト](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api)から取得できる．
 
-### 2. コマンドを実行する
+### 3. Pythonの依存パッケージのインストール
 
-実行コマンドは以下の通り．
+pipコマンドで`tweepy`，`matplotlib`，`numpy`をインストールする．
+
+```sh
+pip install tweepy matplotlib numpy
+```
+
+## 使い方
+
+プロジェクトフォルダで以下のコマンドを実行する．
 
 ```txt
 python susida_score_analyzer.py <twitter_user_name> <price> <game_type>
@@ -59,7 +67,7 @@ python susida_score_analyzer.py <twitter_user_name> <price> <game_type>
 | 単純グラフ | 取得した寿司打のスコアとタイピング速度を単純に折れ線グラフにした図                                           |
 | 平均グラフ | 期間を区切ってスコアとタイピング速度の平均値を求め，スコアを棒グラフ，タイピング速度を折れ線グラフで表した図 |
 
-表示されているグラフウィンドウを2つとも閉じるとプログラムが終了する．
+表示されているグラフを2つとも閉じるとプログラムが終了する．
 
 ## 出力ファイル
 
