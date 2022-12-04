@@ -39,6 +39,11 @@ def SearchTweets(user_name):
 
     # User IDの取得
     user_data = client.get_user(username=user_name)
+
+    # User IDが取得できない（無効なユーザー名）の場合に例外を投げる
+    if len(user_data.errors) != 0:
+        raise Exception("Invalid user name")
+
     user_id = user_data.data["id"]
 
     next_token = None
